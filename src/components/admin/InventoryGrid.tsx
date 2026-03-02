@@ -9,7 +9,11 @@ import { formatPrice } from "@/lib/utils";
 
 type ProductWithPhotos = Product & { product_photos: ProductPhoto[] };
 
-export function InventoryGrid() {
+type InventoryGridProps = {
+  refreshKey?: number;
+};
+
+export function InventoryGrid({ refreshKey }: InventoryGridProps) {
   const [products, setProducts] = useState<ProductWithPhotos[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -51,7 +55,7 @@ export function InventoryGrid() {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [refreshKey]);
 
   const toggleAvailability = async (id: string, current: boolean) => {
     await supabase

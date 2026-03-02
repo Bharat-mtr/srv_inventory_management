@@ -17,8 +17,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const currentPhoto = photos[photoIndex];
 
   return (
-    <Card className="overflow-hidden">
-      <div className="aspect-square bg-muted relative">
+    <Card className="overflow-hidden h-full flex flex-col">
+      <div className="aspect-square bg-muted relative shrink-0">
         {currentPhoto ? (
           <img
             src={currentPhoto.photo_url}
@@ -65,11 +65,13 @@ export function ProductCard({ product }: ProductCardProps) {
           </>
         )}
       </div>
-      <CardContent className="p-3">
-        <p className="font-medium truncate">{product.name}</p>
-        <p className="text-sm text-muted-foreground">
-          {formatPrice(product.price)}
-        </p>
+      <CardContent className="p-4 flex-1 flex flex-col justify-between">
+        <div>
+          <p className="font-medium truncate">{product.name}</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            {formatPrice(product.price)}
+          </p>
+        </div>
         {!product.is_available && (
           <span className="inline-block mt-1 text-xs bg-destructive/20 text-destructive px-2 py-0.5 rounded">
             Out of Stock

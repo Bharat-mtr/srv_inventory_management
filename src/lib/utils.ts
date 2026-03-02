@@ -18,7 +18,8 @@ export function generateUniqueCode(length = 8): string {
   return result;
 }
 
-export function formatPrice(price: number): string {
+export function formatPrice(price: number | null): string {
+  if (price == null) return "—";
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",

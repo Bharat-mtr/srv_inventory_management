@@ -9,6 +9,7 @@ import { AdminModePanel } from "@/components/shopkeeper/AdminModePanel";
 import { AdminLoginModal } from "@/components/admin/AdminLoginModal";
 import { isAdminAuthenticated } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { BrandHeader } from "@/components/ui/brand-header";
 
 type ProductWithPhotos = Product & { product_photos: ProductPhoto[] };
 
@@ -23,9 +24,11 @@ export default function ShopkeeperPage() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       const { data: sk, error: skError } = await supabase
         .from("shopkeepers")
         .select("*")
@@ -83,7 +86,7 @@ export default function ShopkeeperPage() {
       setLoading(false);
     }
     fetchData();
-  }, [code]);
+  }, [code, refreshKey]);
 
   const handleAdminClick = () => {
     if (isAdminAuthenticated()) {
@@ -116,15 +119,14 @@ export default function ShopkeeperPage() {
   if (adminMode) {
     return (
       <div className="min-h-screen bg-muted/30">
-        <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur">
-          <div className="container mx-auto flex h-14 items-center justify-between px-4">
-            <h1 className="text-lg font-semibold">
-              Admin — {shopkeeper.name}
-            </h1>
+        <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur shadow-sm">
+          <div className="container mx-auto flex h-16 items-center justify-between px-4">
+            <BrandHeader subtitle={`Admin — ${shopkeeper.name}`} />
             <Button
               variant="outline"
               size="sm"
               onClick={() => setAdminMode(false)}
+              className="border-primary/20 hover:bg-primary/5"
             >
               View as Shopkeeper
             </Button>
@@ -133,7 +135,10 @@ export default function ShopkeeperPage() {
         <main className="container mx-auto px-4 py-6">
           <AdminModePanel
             shopkeeper={shopkeeper}
-            onBack={() => setAdminMode(false)}
+            onBack={() => {
+              setRefreshKey((k) => k + 1);
+              setAdminMode(false);
+            }}
           />
         </main>
       </div>
@@ -141,19 +146,19 @@ export default function ShopkeeperPage() {
   }
 
   return (
-    <div className="min-h-screen">
-      <header className="border-b bg-background">
-        <div className="container mx-auto px-4 py-6">
-          <h1 className="text-xl font-semibold">{shopkeeper.name}</h1>
+    <div className="min-h-screen bg-background">
+      <header className="border-b bg-card shadow-sm sticky top-0 z-10">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <BrandHeader subtitle={`Catalog for ${shopkeeper.name}`} />
           {shopkeeper.address && (
-            <p className="text-sm text-muted-foreground mt-1">
+            <div className="hidden md:block text-sm text-muted-foreground text-right max-w-xs truncate">
               {shopkeeper.address}
-            </p>
+            </div>
           )}
         </div>
       </header>
-      <main className="container mx-auto px-4 py-6">
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <main className="container mx-auto px-4 py-8 pb-20">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {visibleProducts.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}

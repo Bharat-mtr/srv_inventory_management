@@ -13,7 +13,7 @@ export const supabase: SupabaseClient = createClient(
 export type Product = {
   id: string;
   name: string;
-  price: number;
+  price: number | null;
   description: string | null;
   is_available: boolean;
   created_at: string;

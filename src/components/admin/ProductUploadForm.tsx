@@ -10,7 +10,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 const STORAGE_BUCKET = "product-photos";
 
-export function ProductUploadForm() {
+type ProductUploadFormProps = {
+  onProductAdded?: () => void;
+};
+
+export function ProductUploadForm({ onProductAdded }: ProductUploadFormProps) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -69,7 +73,7 @@ export function ProductUploadForm() {
         .from("products")
         .insert({
           name,
-          price: parseFloat(price) || 0,
+          price: price.trim() ? parseFloat(price) : null,
           description: description || null,
           is_available: isAvailable,
         })
@@ -97,6 +101,7 @@ export function ProductUploadForm() {
       setPrice("");
       setDescription("");
       setPhotos([]);
+      onProductAdded?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
     } finally {
@@ -122,7 +127,7 @@ export function ProductUploadForm() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="price">Price (₹)</Label>
+            <Label htmlFor="price">Price (₹) (optional)</Label>
             <Input
               id="price"
               type="number"
@@ -130,7 +135,6 @@ export function ProductUploadForm() {
               step="0.01"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              required
               placeholder="0"
             />
           </div>

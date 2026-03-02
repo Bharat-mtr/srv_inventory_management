@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Wholesale Catalog",
+  title: "Shri Radha Vallabh Enterprises",
   description: "Wholesale purse catalog for shopkeepers",
 };
 

@@ -6,6 +6,7 @@ import { verifyAdminCredentials } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { BrandHeader } from "@/components/ui/brand-header";
 import {
   ProductUploadForm,
   InventoryGrid,
@@ -15,6 +16,7 @@ import {
 
 export default function AdminPage() {
   const [authenticated, setAuthenticated] = useState(false);
+  const [inventoryRefreshKey, setInventoryRefreshKey] = useState(0);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -42,10 +44,10 @@ export default function AdminPage() {
   if (!authenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
-        <div className="w-full max-w-sm space-y-6">
-          <h1 className="text-2xl font-semibold text-center">
-            Admin Portal
-          </h1>
+        <div className="w-full max-w-sm space-y-8 bg-card p-8 rounded-xl shadow-sm border">
+          <div className="flex justify-center">
+            <BrandHeader className="flex-col !gap-4 text-center" />
+          </div>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
@@ -79,17 +81,17 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-muted/30">
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur">
-        <div className="container mx-auto flex h-14 items-center justify-between px-4">
-          <h1 className="text-lg font-semibold">Wholesale Catalog Admin</h1>
-          <Button variant="outline" size="sm" onClick={handleLogout}>
+      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur shadow-sm">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+          <BrandHeader subtitle="Admin Portal" />
+          <Button variant="outline" size="sm" onClick={handleLogout} className="border-primary/20 hover:bg-primary/5">
             Logout
           </Button>
         </div>
       </header>
       <main className="container mx-auto px-4 py-8 space-y-12">
-        <ProductUploadForm />
-        <InventoryGrid />
+        <ProductUploadForm onProductAdded={() => setInventoryRefreshKey((k) => k + 1)} />
+        <InventoryGrid refreshKey={inventoryRefreshKey} />
         <ShopkeeperManager />
         <BulkVisibilityPanel />
       </main>
