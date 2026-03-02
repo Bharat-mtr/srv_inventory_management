@@ -125,7 +125,10 @@ export default function ShopkeeperPage() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setAdminMode(false)}
+              onClick={() => {
+                setRefreshKey((k) => k + 1);
+                setAdminMode(false);
+              }}
               className="border-primary/20 hover:bg-primary/5"
             >
               View as Shopkeeper

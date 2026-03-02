@@ -68,6 +68,7 @@ export function ProductUploadForm({ onProductAdded }: ProductUploadFormProps) {
       return;
     }
     setLoading(true);
+    let productCreated = false;
     try {
       const { data: product, error: productError } = await supabase
         .from("products")
@@ -82,6 +83,8 @@ export function ProductUploadForm({ onProductAdded }: ProductUploadFormProps) {
 
       if (productError) throw productError;
       if (!product) throw new Error("Failed to create product");
+
+      productCreated = true;
 
       const photoUrls = await uploadPhotos(product.id);
 
@@ -104,6 +107,7 @@ export function ProductUploadForm({ onProductAdded }: ProductUploadFormProps) {
       onProductAdded?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
+      if (productCreated) onProductAdded?.();
     } finally {
       setLoading(false);
     }
@@ -131,7 +135,6 @@ export function ProductUploadForm({ onProductAdded }: ProductUploadFormProps) {
             <Input
               id="price"
               type="number"
-              min="0"
               step="0.01"
               value={price}
               onChange={(e) => setPrice(e.target.value)}

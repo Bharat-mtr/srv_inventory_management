@@ -18,6 +18,7 @@ export function InventoryGrid({ refreshKey }: InventoryGridProps) {
   const [loading, setLoading] = useState(true);
 
   const fetchProducts = async () => {
+    setLoading(true);
     const { data: productsData, error: productsError } = await supabase
       .from("products")
       .select("*")
