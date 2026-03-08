@@ -13,6 +13,7 @@ import {
   ShopkeeperManager,
   BulkVisibilityPanel,
 } from "@/components/admin";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export default function AdminPage() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -83,13 +84,20 @@ export default function AdminPage() {
     <div className="min-h-screen bg-muted/30">
       <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur shadow-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <BrandHeader subtitle="Admin Portal" />
-          <Button variant="outline" size="sm" onClick={handleLogout} className="border-primary/20 hover:bg-primary/5">
-            Logout
-          </Button>
+          <BrandHeader
+            subtitle="Admin Portal"
+            actions={
+              <div className="flex items-center gap-2">
+                <ThemeToggle />
+                <Button variant="outline" size="sm" onClick={handleLogout} className="border-primary/20 hover:bg-primary/5">
+                  Logout
+                </Button>
+              </div>
+            }
+          />
         </div>
       </header>
-      <main className="container mx-auto px-4 py-8 space-y-12">
+      <main className="container mx-auto px-4 py-8 pb-[max(2rem,env(safe-area-inset-bottom))] space-y-12">
         <ProductUploadForm onProductAdded={() => setInventoryRefreshKey((k) => k + 1)} />
         <InventoryGrid refreshKey={inventoryRefreshKey} />
         <ShopkeeperManager />

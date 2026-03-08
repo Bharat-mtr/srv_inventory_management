@@ -1,9 +1,13 @@
 import Link from "next/link";
 import { BrandHeader } from "@/components/ui/brand-header";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background relative">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="max-w-md w-full flex flex-col items-center text-center space-y-6">
         <BrandHeader 
           className="flex-col !gap-6 text-center" 
@@ -22,3 +26,4 @@ export default function HomePage() {
     </div>
   );
 }
+

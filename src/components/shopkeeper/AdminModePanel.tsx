@@ -92,7 +92,7 @@ export function AdminModePanel({ shopkeeper, onBack }: AdminModePanelProps) {
         <h2 className="text-lg font-semibold mb-3">
           Visible to {shopkeeper.name}
         </h2>
-        <div className="space-y-2 max-h-[60vh] overflow-y-auto">
+        <div className="space-y-2 max-h-[50vh] sm:max-h-[60vh] overflow-y-auto">
           {visibleProducts.map((p) => (
             <ProductAdminCard
               key={p.id}
@@ -112,7 +112,7 @@ export function AdminModePanel({ shopkeeper, onBack }: AdminModePanelProps) {
         <h2 className="text-lg font-semibold mb-3">
           Hidden from {shopkeeper.name}
         </h2>
-        <div className="space-y-2 max-h-[60vh] overflow-y-auto">
+        <div className="space-y-2 max-h-[50vh] sm:max-h-[60vh] overflow-y-auto">
           {hiddenProducts
             .sort(
               (a, b) =>

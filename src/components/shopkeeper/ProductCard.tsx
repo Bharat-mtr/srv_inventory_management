@@ -37,7 +37,7 @@ export function ProductCard({ product }: ProductCardProps) {
               onClick={() =>
                 setPhotoIndex((i) => (i === 0 ? photos.length - 1 : i - 1))
               }
-              className="absolute left-1 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center text-sm"
+              className="absolute left-1 top-1/2 -translate-y-1/2 min-w-11 min-h-11 rounded-full bg-black/50 text-white flex items-center justify-center text-lg touch-manipulation"
             >
               ‹
             </button>
@@ -46,17 +46,17 @@ export function ProductCard({ product }: ProductCardProps) {
               onClick={() =>
                 setPhotoIndex((i) => (i === photos.length - 1 ? 0 : i + 1))
               }
-              className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center text-sm"
+              className="absolute right-1 top-1/2 -translate-y-1/2 min-w-11 min-h-11 rounded-full bg-black/50 text-white flex items-center justify-center text-lg touch-manipulation"
             >
               ›
             </button>
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
               {photos.map((_, i) => (
                 <button
                   key={i}
                   type="button"
                   onClick={() => setPhotoIndex(i)}
-                  className={`w-2 h-2 rounded-full ${
+                  className={`min-w-3 min-h-3 p-1 rounded-full touch-manipulation ${
                     i === photoIndex ? "bg-white" : "bg-white/50"
                   }`}
                 />

@@ -10,6 +10,7 @@ import { AdminLoginModal } from "@/components/admin/AdminLoginModal";
 import { isAdminAuthenticated } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { BrandHeader } from "@/components/ui/brand-header";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 type ProductWithPhotos = Product & { product_photos: ProductPhoto[] };
 
@@ -121,18 +122,25 @@ export default function ShopkeeperPage() {
       <div className="min-h-screen bg-muted/30">
         <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur shadow-sm">
           <div className="container mx-auto flex h-16 items-center justify-between px-4">
-            <BrandHeader subtitle={`Admin — ${shopkeeper.name}`} />
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setRefreshKey((k) => k + 1);
-                setAdminMode(false);
-              }}
-              className="border-primary/20 hover:bg-primary/5"
-            >
-              View as Shopkeeper
-            </Button>
+            <BrandHeader
+              subtitle={`Admin — ${shopkeeper.name}`}
+              actions={
+                <div className="flex items-center gap-2">
+                  <ThemeToggle />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setRefreshKey((k) => k + 1);
+                      setAdminMode(false);
+                    }}
+                    className="border-primary/20 hover:bg-primary/5"
+                  >
+                    View as Shopkeeper
+                  </Button>
+                </div>
+              }
+            />
           </div>
         </header>
         <main className="container mx-auto px-4 py-6">
@@ -151,16 +159,19 @@ export default function ShopkeeperPage() {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <BrandHeader subtitle={`Catalog for ${shopkeeper.name}`} />
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between gap-2 min-w-0">
+          <BrandHeader
+            subtitle={`Catalog for ${shopkeeper.name}`}
+            actions={<ThemeToggle />}
+          />
           {shopkeeper.address && (
-            <div className="hidden md:block text-sm text-muted-foreground text-right max-w-xs truncate">
+            <div className="text-sm text-muted-foreground text-right max-w-[8rem] sm:max-w-xs truncate">
               {shopkeeper.address}
             </div>
           )}
         </div>
       </header>
-      <main className="container mx-auto px-4 py-8 pb-20">
+      <main className="container mx-auto px-4 py-8 pb-[max(5rem,env(safe-area-inset-bottom))]">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {visibleProducts.map((p) => (
             <ProductCard key={p.id} product={p} />
@@ -174,7 +185,7 @@ export default function ShopkeeperPage() {
       </main>
       <button
         onClick={handleAdminClick}
-        className="fixed bottom-4 right-4 text-xs text-muted-foreground bg-muted hover:bg-muted/80 px-3 py-2 rounded shadow"
+        className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 min-h-11 min-w-11 px-4 py-3 text-sm text-muted-foreground bg-muted hover:bg-muted/80 rounded shadow touch-manipulation"
       >
         Admin
       </button>

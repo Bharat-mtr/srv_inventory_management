@@ -67,7 +67,7 @@ export function ShopkeeperManager() {
         <CardTitle>Shopkeepers</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <form onSubmit={handleAdd} className="flex flex-wrap gap-4 items-end">
+        <form onSubmit={handleAdd} className="flex flex-col sm:flex-row sm:flex-wrap gap-4 items-stretch sm:items-end">
           <div className="space-y-2">
             <Label htmlFor="sk-name">Name</Label>
             <Input
@@ -95,9 +95,9 @@ export function ShopkeeperManager() {
           {shopkeepers.map((s) => (
             <div
               key={s.id}
-              className="flex flex-wrap items-center justify-between gap-2 p-3 border rounded-lg"
+              className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-2 p-3 border rounded-lg"
             >
-              <div>
+              <div className="min-w-0">
                 <p className="font-medium">{s.name}</p>
                 {s.address && (
                   <p className="text-sm text-muted-foreground">{s.address}</p>
